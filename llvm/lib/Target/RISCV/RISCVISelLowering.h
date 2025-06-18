@@ -263,6 +263,7 @@ enum NodeType : unsigned {
   // Vector binary ops with a passthru as a third operand, a mask as a fourth
   // operand, and VL as a fifth operand.
   ADD_VL,
+  ADD2_VL, //YL add
   AND_VL,
   MUL_VL,
   OR_VL,

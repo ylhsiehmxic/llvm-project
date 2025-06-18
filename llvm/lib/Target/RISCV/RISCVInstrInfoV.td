@@ -1114,6 +1114,7 @@ def : InstAlias<"vl8r.v $vd, (${rs1})", (VL8RE8_V VRM8:$vd, GPR:$rs1)>;
 let Predicates = [HasVInstructions] in {
 // Vector Single-Width Integer Add and Subtract
 defm VADD_V : VALU_IV_V_X_I<"vadd", 0b000000>;
+defm VADD2_V : VALU_IV_V_X_I<"vadd2", 0b001000>; //YL add (here not to adopt 0b000001, due to conflict)
 defm VSUB_V : VALU_IV_V_X<"vsub", 0b000010>;
 defm VRSUB_V : VALU_IV_X_I<"vrsub", 0b000011>;
 

@@ -1382,6 +1382,7 @@ let TargetPrefix = "riscv" in {
   def int_riscv_vsm : RISCVUSStore;
 
   defm vadd : RISCVBinaryAAX;
+  defm vadd2 : RISCVBinaryAAX; //YL add
   defm vsub : RISCVBinaryAAX;
   defm vrsub : RISCVBinaryAAX;
 

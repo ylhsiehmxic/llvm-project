@@ -96,6 +96,7 @@ def riscv_vfmv_s_f_vl : SDNode<"RISCVISD::VFMV_S_F_VL",
                                                     SDTCisVT<3, XLenVT>]>>;
 
 def riscv_add_vl   : SDNode<"RISCVISD::ADD_VL",   SDT_RISCVIntBinOp_VL, [SDNPCommutative]>;
+def riscv_add2_vl   : SDNode<"RISCVISD::ADD2_VL",   SDT_RISCVIntBinOp_VL, [SDNPCommutative]>; //YL add
 def riscv_sub_vl   : SDNode<"RISCVISD::SUB_VL",   SDT_RISCVIntBinOp_VL>;
 def riscv_mul_vl   : SDNode<"RISCVISD::MUL_VL",   SDT_RISCVIntBinOp_VL, [SDNPCommutative]>;
 def riscv_mulhs_vl : SDNode<"RISCVISD::MULHS_VL", SDT_RISCVIntBinOp_VL, [SDNPCommutative]>;
@@ -2030,6 +2031,7 @@ multiclass VPatAVGADDVL_VV_VX_RM<SDNode vop, int vxrm, string suffix = ""> {
 
 // 11.1. Vector Single-Width Integer Add and Subtract
 defm : VPatBinaryVL_VV_VX_VI<riscv_add_vl, "PseudoVADD">;
+defm : VPatBinaryVL_VV_VX_VI<riscv_add2_vl, "PseudoVADD2">; //YL add
 defm : VPatBinaryVL_VV_VX<riscv_sub_vl, "PseudoVSUB">;
 // Handle VRSUB specially since it's the only integer binary op with reversed
 // pattern operands
@@ -2114,6 +2116,13 @@ foreach vti = AllIntegerVectors in {
                           (riscv_vmv_v_x_vl (vti.Vector undef), 1, (XLenVT srcvalue)),
                           srcvalue, (vti.Mask true_mask), VLOpFrag),
             (!cast<Instruction>("PseudoVADD_VV_"# vti.LMul.MX)
+                 (vti.Vector (IMPLICIT_DEF)),
+                 vti.RegClass:$rs1, vti.RegClass:$rs1, GPR:$vl, vti.Log2SEW, TA_MA)>;
+  //YL add (copy above)
+  def : Pat<(riscv_shl_vl (vti.Vector vti.RegClass:$rs1),
+                          (riscv_vmv_v_x_vl (vti.Vector undef), 1, (XLenVT srcvalue)),
+                          srcvalue, (vti.Mask true_mask), VLOpFrag),
+            (!cast<Instruction>("PseudoVADD2_VV_"# vti.LMul.MX)
                  (vti.Vector (IMPLICIT_DEF)),
                  vti.RegClass:$rs1, vti.RegClass:$rs1, GPR:$vl, vti.Log2SEW, TA_MA)>;
 }

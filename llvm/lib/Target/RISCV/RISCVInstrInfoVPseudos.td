@@ -6152,6 +6152,7 @@ defm PseudoVLSEG : VPseudoUSSegLoadFF;
 // 11.1. Vector Single-Width Integer Add and Subtract
 //===----------------------------------------------------------------------===//
 defm PseudoVADD   : VPseudoVALU_VV_VX_VI<Commutable=1>;
+defm PseudoVADD2   : VPseudoVALU_VV_VX_VI<Commutable=1>; //YL add
 defm PseudoVSUB   : VPseudoVALU_VV_VX;
 defm PseudoVRSUB  : VPseudoVALU_VX_VI;
 
@@ -6773,6 +6774,7 @@ defm PseudoVCOMPRESS : VPseudoVCPR_V;
 // 11.1. Vector Single-Width Integer Add and Subtract
 //===----------------------------------------------------------------------===//
 defm : VPatBinaryV_VV_VX_VI<"int_riscv_vadd", "PseudoVADD", AllIntegerVectors>;
+defm : VPatBinaryV_VV_VX_VI<"int_riscv_vadd2", "PseudoVADD2", AllIntegerVectors>; //YL add
 defm : VPatBinaryV_VV_VX<"int_riscv_vsub", "PseudoVSUB", AllIntegerVectors>;
 defm : VPatBinaryV_VX_VI<"int_riscv_vrsub", "PseudoVRSUB", AllIntegerVectors>;
 

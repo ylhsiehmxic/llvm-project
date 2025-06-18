@@ -894,7 +894,8 @@ foreach mti = AllMasks in
 // 11. Vector Integer Arithmetic Instructions
 
 // 11.1. Vector Single-Width Integer Add and Subtract
-defm : VPatBinarySDNode_VV_VX_VI<add, "PseudoVADD">;
+//defm : VPatBinarySDNode_VV_VX_VI<add, "PseudoVADD">; //YL add modify. Replace with the modified one below
+defm : VPatBinarySDNode_VV_VX_VI<add, "PseudoVADD2">; //YL add modify. Note: modify, not to add a new defm with <add2, "PseudoVADD2">, because here is to replace general "add" to "PseudoVADD2"
 defm : VPatBinarySDNode_VV_VX<sub, "PseudoVSUB">;
 // Handle VRSUB specially since it's the only integer binary op with reversed
 // pattern operands
@@ -990,6 +991,12 @@ foreach vti = AllIntegerVectors in {
   def : Pat<(shl (vti.Vector vti.RegClass:$rs1),
                  (vti.Vector (riscv_vmv_v_x_vl (vti.Vector undef), 1, (XLenVT srcvalue)))),
             (!cast<Instruction>("PseudoVADD_VV_"# vti.LMul.MX)
+                 (vti.Vector (IMPLICIT_DEF)), vti.RegClass:$rs1,
+                 vti.RegClass:$rs1, vti.AVL, vti.Log2SEW, TA_MA)>;
+  //YL add
+  def : Pat<(shl (vti.Vector vti.RegClass:$rs1),
+                 (vti.Vector (riscv_vmv_v_x_vl (vti.Vector undef), 1, (XLenVT srcvalue)))),
+            (!cast<Instruction>("PseudoVADD2_VV_"# vti.LMul.MX)
                  (vti.Vector (IMPLICIT_DEF)), vti.RegClass:$rs1,
                  vti.RegClass:$rs1, vti.AVL, vti.Log2SEW, TA_MA)>;
 
