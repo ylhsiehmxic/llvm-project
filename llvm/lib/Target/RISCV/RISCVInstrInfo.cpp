@@ -1777,7 +1777,9 @@ bool RISCVInstrInfo::isVectorAssociativeAndCommutative(const MachineInstr &Inst,
   default:
     return false;
   OPCODE_LMUL_CASE(PseudoVADD_VV):
+  OPCODE_LMUL_CASE(PseudoVADD2_VV): //YL add
   OPCODE_LMUL_MASK_CASE(PseudoVADD_VV):
+  OPCODE_LMUL_MASK_CASE(PseudoVADD2_VV): //YL add
   OPCODE_LMUL_CASE(PseudoVMUL_VV):
   OPCODE_LMUL_MASK_CASE(PseudoVMUL_VV):
     return true;
@@ -3356,6 +3358,7 @@ bool RISCVInstrInfo::findCommutedOpIndices(const MachineInstr &MI,
     // Operands 4 and 5 are commutable.
     return fixCommutedOpIndices(SrcOpIdx1, SrcOpIdx2, 4, 5);
   case CASE_RVV_OPCODE(VADD_VV):
+  case CASE_RVV_OPCODE(VADD2_VV): //YL add
   case CASE_RVV_OPCODE(VAND_VV):
   case CASE_RVV_OPCODE(VOR_VV):
   case CASE_RVV_OPCODE(VXOR_VV):
@@ -4127,6 +4130,7 @@ RISCV::getVectorLowDemandedScalarBits(uint16_t Opcode, unsigned Log2SEW) {
 
   // 11.1. Vector Single-Width Integer Add and Subtract
   case RISCV::VADD_VX:
+  case RISCV::VADD2_VX: //YL add
   case RISCV::VSUB_VX:
   case RISCV::VRSUB_VX:
   // 11.2. Vector Widening Integer Add/Subtract

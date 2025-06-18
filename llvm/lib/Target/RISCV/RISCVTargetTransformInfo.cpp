@@ -1154,7 +1154,7 @@ RISCVTTIImpl::getIntrinsicInstrCost(const IntrinsicCostAttributes &ICA,
     if (ST->hasVInstructions())
       return getRISCVInstructionCost(RISCV::VID_V, LT.second, CostKind) +
              (LT.first - 1) *
-                 getRISCVInstructionCost(RISCV::VADD_VX, LT.second, CostKind);
+                 getRISCVInstructionCost(RISCV::VADD2_VX, LT.second, CostKind); //YL add modify (replace VADD_VX by VADD2_VX)
     return 1 + (LT.first - 1);
   }
   case Intrinsic::experimental_cttz_elts: {
@@ -1641,7 +1641,7 @@ RISCVTTIImpl::getArithmeticReductionCost(unsigned Opcode, VectorType *Ty,
   SmallVector<unsigned, 3> Opcodes;
   switch (ISD) {
   case ISD::ADD:
-    SplitOp = RISCV::VADD_VV;
+    SplitOp = RISCV::VADD2_VV; //YL add modify (replace VADD_VV by VADD2_VV)
     Opcodes = {RISCV::VMV_S_X, RISCV::VREDSUM_VS, RISCV::VMV_X_S};
     break;
   case ISD::OR:

@@ -295,6 +295,10 @@ getOperandLog2EEW(const MachineOperand &MO, const MachineRegisterInfo *MRI) {
   case RISCV::VADD_VI:
   case RISCV::VADD_VV:
   case RISCV::VADD_VX:
+  //YL add below VADD2
+  case RISCV::VADD2_VI:
+  case RISCV::VADD2_VV:
+  case RISCV::VADD2_VX:
   case RISCV::VSUB_VV:
   case RISCV::VSUB_VX:
   case RISCV::VRSUB_VI:
@@ -811,6 +815,10 @@ static bool isSupportedInstr(const MachineInstr &MI) {
   case RISCV::VADD_VI:
   case RISCV::VADD_VV:
   case RISCV::VADD_VX:
+  //YL add below VADD2
+  case RISCV::VADD2_VI:
+  case RISCV::VADD2_VV:
+  case RISCV::VADD2_VX:
   case RISCV::VSUB_VV:
   case RISCV::VSUB_VX:
   case RISCV::VRSUB_VI:
